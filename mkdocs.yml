@@ -1,0 +1,50 @@
+site_name: ModernStorage
+site_url: https://google.github.com/modernstorage/
+repo_name: google/modernstorage
+repo_url: https://github.com/google/modernstorage
+edit_uri: edit/main/docs/
+site_description: "ModernStorage is a group of libraries that provide an abstraction layer over storage on Android to simplify its interactions"
+site_author: Google
+theme:
+    name: material
+    icon:
+        logo: material/folder-outline
+    favicon: images/favicon.png
+    palette:
+        primary: deep purple
+
+nav:
+    -   'Overview': README.md
+    -   'Changelog': https://github.com/google/modernstorage/releases
+    -   'Permissions': permissions.md
+    -   'Photo Picker': photopicker.md
+    -   'Storage interactions': storage.md
+    # TODO: Remove below sections at the next release
+    -   'MediaStore (deprecated)': mediastore.md
+    -   'Filesystem (deprecated)': filesystem.md
+
+# Extensions
+markdown_extensions:
+    - tables
+    - admonition
+    - codehilite:
+        guess_lang: false
+    - footnotes
+    - toc:
+        permalink: true
+    - pymdownx.betterem
+    - pymdownx.superfences
+    - pymdownx.tabbed
+    - pymdownx.tasklist:
+        custom_checkbox: true
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
+
+# Plugins
+plugins:
+    - search
+    - macros
+
+extra:
+    lib_version: "1.0.0-alpha06"

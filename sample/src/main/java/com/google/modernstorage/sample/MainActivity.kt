@@ -1,11 +1,11 @@
 /*
- * Copyright 2021 The Android Open Source Project
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,32 +13,81 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.modernstorage.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.google.modernstorage.sample.mediastore.AddFileToDownloadsScreen
+import com.google.modernstorage.sample.mediastore.AddMediaScreen
+import com.google.modernstorage.sample.permissions.CheckPermissionScreen
+import com.google.modernstorage.sample.photopicker.PickVisualMediaScreen
+import com.google.modernstorage.sample.saf.SelectDocumentFileScreen
+import com.google.modernstorage.sample.ui.theme.ModernStorageTheme
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
+class MainActivity : ComponentActivity() {
+    @ExperimentalFoundationApi
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContent {
+            ModernStorageTheme {
+                val navController = rememberNavController()
 
-        val navController = findNavController(R.id.nav_host_fragment)
+                NavHost(
+                    navController = navController,
+                    startDestination = HomeRoute
+                ) {
+                    composable(HomeRoute) {
+                        HomeScreen(navController)
+                    }
 
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-    }
+                    /**
+                     * Permissions demos
+                     */
+                    composable(Demos.CheckPermission.route) {
+                        CheckPermissionScreen(navController)
+                    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) ||
-                super.onSupportNavigateUp()
+                    /**
+                     * MediaStore demos
+                     */
+                    composable(Demos.AddMedia.route) {
+                        AddMediaScreen(navController)
+                    }
+                    composable(Demos.CaptureMedia.route) {
+                        NotAvailableYetScreen(navController)
+                    }
+                    composable(Demos.AddFileToDownloads.route) {
+                        AddFileToDownloadsScreen(navController)
+                    }
+                    composable(Demos.ListMedia.route) {
+                        NotAvailableYetScreen(navController)
+                    }
+
+                    /**
+                     * Storage Access Framework demos
+                     */
+                    composable(Demos.SelectDocument.route) {
+                        SelectDocumentFileScreen(navController)
+                    }
+                    composable(Demos.EditDocument.route) {
+                        NotAvailableYetScreen(navController)
+                    }
+
+                    /**
+                     * Photo Picker demos
+                     */
+                    composable(Demos.PickVisualMedia.route) {
+                        PickVisualMediaScreen(navController)
+                    }
+                }
+            }
+        }
     }
 }
